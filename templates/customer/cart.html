@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <a href="{% url 'menu_view' %}?meal_type={{ selected_meal_type }}" class="btn btn-outline-primary mb-3">
+    <i class="bi bi-arrow-left-circle"></i> Back To Menu
+  </a>
+
+  <h3 class="mb-4"><i class="bi bi-cart4 me-2"></i>Your Cart</h3>
+
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle text-center">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Item</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+          <th scope="col">Total</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in items %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td><strong>{{ entry.item.name }}</strong></td>
+          <td>
+            <div class="d-flex justify-content-center align-items-center">
+              <a href="{% url 'decrease_quantity' entry.item.id %}" class="btn btn-outline-secondary btn-sm me-2" title="Decrease">
+                <i class="bi bi-dash-circle"></i>
+              </a>
+              <span>{{ entry.quantity }}</span>
+              <a href="{% url 'increase_quantity' entry.item.id %}" class="btn btn-outline-secondary btn-sm ms-2" title="Increase">
+                <i class="bi bi-plus-circle"></i>
+              </a>
+            </div>
+          </td>
+          <td>${{ entry.item.price }}</td>
+          <td>${{ entry.total }}</td>
+          <td>
+            <a href="{% url 'remove_from_cart' entry.item.id %}" class="btn btn-danger btn-sm" title="Remove Item">
+              <i class="bi bi-trash3-fill"></i>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+        <tr class="table-light">
+          <td colspan="4" class="text-end"><strong>Grand Total:</strong></td>
+          <td colspan="2" class="text-start"><strong>${{ total }}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <form method="post" action="{% url 'place_order' %}" class="text-end mt-4">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success btn-lg">
+      <i class="bi bi-check-circle-fill me-1"></i> Place Order
+    </button>
+  </form>
+</div>
+{% endblock %}

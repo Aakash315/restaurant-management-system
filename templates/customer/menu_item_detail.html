@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h3>{{ item.name }}</h3>
+  <p><strong>Description:</strong> {{ item.description }}</p>
+  <p><strong>Price:</strong> ${{ item.price }}</p>
+  <a href="{% url 'menu_view' %}" class="btn btn-secondary mt-3">Back to Menu</a>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-primary">Back To Dashboard</a>
+  <h2>Tax & Service Charge Settings</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="cgst" class="form-label">CGST</label>
+      <input type="text" class="form-control" name="cgst" value="{{ tax_data.cgst }}">
+    </div>
+    <div class="mb-3">
+      <label for="sgst" class="form-label">SGST</label>
+      <input type="text" class="form-control" name="sgst" value="{{ tax_data.sgst }}">
+    </div>
+    <button type="submit" class="btn btn-success">Save Tax</button>
+  </form>
+{% endblock %}

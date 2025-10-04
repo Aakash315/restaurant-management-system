@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{% url 'waiter_dashboard' %}" class="btn btn-outline-primary">Back To Dashboard</a>
+
+<h3><i class="bi bi-clipboard-check"></i> Assigned Orders</h3>
+
+{% for order in orders %}
+<div class="card mb-4">
+  <div class="card-header">
+    <strong>Table {{ order.table.number }}</strong> | Customer: {{ order.customer.name }}
+  </div>
+  <div class="card-body">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>Item</th><th>Qty</th><th>Status</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.items.all %}
+        <tr>
+          <td>{{ item.item.name }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>
+            {% if item.is_delivered %}
+              <span class="badge bg-success">Delivered</span>
+            {% else %}
+              <span class="badge bg-warning">Pending</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if not item.is_delivered %}
+              <a href="{% url 'mark_item_delivered' item.id %}" class="btn btn-sm btn-outline-success">
+                <i class="bi bi-check-circle"></i> Mark as Delivered
+              </a>
+            {% else %}
+              <i class="bi bi-check-circle-fill text-success"></i>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% empty %}
+<p>No active orders found.</p>
+{% endfor %}
+{% endblock %}

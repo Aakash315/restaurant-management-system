@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3><i class="bi bi-clock-history"></i> Your Order Status</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Qty</th>
+      <th>Kitchen Status</th>
+      <th>Delivered?</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in order.items.all %}
+    <tr>
+      <td>{{ item.item.name }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>
+        {% if item.kitchen_status == 'pending' %}
+          <span class="badge bg-secondary">Pending</span>
+        {% elif item.kitchen_status == 'preparing' %}
+          <span class="badge bg-warning">Preparing</span>
+        {% elif item.kitchen_status == 'ready' %}
+          <span class="badge bg-success">Ready</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if item.is_delivered %}
+          <span class="badge bg-success">✔ Delivered</span>
+        {% else %}
+          <span class="badge bg-danger">✘ Not Yet</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{% url 'menu_view' %}" class="btn btn-outline-secondary">
+  ← Back to Menu
+</a>
+
+<script>
+  setTimeout(function() {
+    location.reload();
+  }, 30000); // 30 seconds
+</script>
+{% endblock %}
+

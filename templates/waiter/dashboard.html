@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">
+        <i class="bi bi-box-arrow-right"></i> Logout
+    </a>
+    {% endif %}
+<p><a href="{% url 'waiter_orders' %}">View Orders</a></p>
+<h1>Waiter Dashboard</h1>
+<h3>Assistance Requests</h3>
+{% if requests %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Table Number</th>
+      <th>Time</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for req in requests %}
+    <tr>
+      <td>Table {{ req.table.number }}</td>
+      <td>{{ req.timestamp|date:"H:i:s" }}</td>
+      <td>
+        <a href="{% url 'resolve_request' req.id %}" class="btn btn-sm btn-success">
+          <i class="bi bi-check-circle"></i> Mark as Resolved
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No pending requests.</p>
+{% endif %}
+{% endblock %}
+
+

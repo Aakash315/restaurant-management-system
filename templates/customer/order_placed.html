@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="alert alert-success">
+  <h4>✅ Order Placed!</h4>
+  <p>Your order has been sent to the kitchen.</p>
+</div>
+<a href="{% url 'menu_view' %}" class="btn btn-primary">Back to Menu</a>
+
+<!-- <a href="{% url 'request_bill' %}" class="btn btn-danger mt-3">
+  <i class="bi bi-receipt"></i> Request Bill
+</a> -->
+
+{% endblock %}

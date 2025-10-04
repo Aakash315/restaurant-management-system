@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<a href="{% url 'manager_dashboard' %}" class="btn btn-outline-primary">Back To Dashboard</a>
+
+
+<h3><i class="bi bi-box-seam"></i> Inventory Management</h3>
+
+<h5 class="mt-4">📉 Low Stock Alerts</h5>
+
+{% if low_stock_items %}
+<ul class="list-group">
+  {% for item in low_stock_items %}
+  <li class="list-group-item d-flex justify-content-between">
+    {{ item.name }} 
+    <span class="badge bg-danger">{{ item.stock_quantity }} left</span>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No low-stock items 🚀</p>
+{% endif %}
+
+<!-- 🔍 Search Bar -->
+<form method="get" class="mb-3 d-flex" role="search">
+  <input type="text" name="q" placeholder="Search item..." value="{{ query }}" class="form-control me-2" />
+  <button type="submit" class="btn btn-outline-secondary">Search</button>
+</form>
+
+<h5 class="mt-4">📦 Full Inventory</h5>
+<table class="table">
+  <thead><tr><th>Item</th><th>Stock</th><th>Threshold</th><th>Update</th></tr></thead>
+  <tbody>
+    {% for item in items %}
+    <tr>
+      <td>{{ item.name }}</td>
+      <td>{{ item.stock_quantity }}</td>
+      <td>{{ item.low_stock_threshold }}</td>
+      <td>
+        <form method="post" action="{% url 'update_stock' item.id %}" class="d-flex">
+          {% csrf_token %}
+          <input type="number" name="stock_quantity" class="form-control me-2" value="{{ item.stock_quantity }}">
+          <button class="btn btn-sm btn-primary">Update</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

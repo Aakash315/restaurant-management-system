@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">
+        <i class="bi bi-box-arrow-right"></i> Logout
+    </a>
+    {% endif %}
+<h3><i class="bi bi-fire"></i> Kitchen Dashboard</h3>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Table</th>
+      <th>Item</th>
+      <th>Qty</th>
+      <th>Status</th>
+      <th>Assigned Waiter</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+    <tr>
+      <td>{{ item.order.table.number }}</td>
+      <td>{{ item.item.name }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>
+        {% if item.kitchen_status == 'pending' %}
+          <span class="badge bg-secondary">Pending</span>
+        {% elif item.kitchen_status == 'preparing' %}
+          <span class="badge bg-warning">Preparing</span>
+        {% elif item.kitchen_status == 'ready' %}
+          <span class="badge bg-success">Ready</span>
+        {% endif %}
+      </td>
+      <td>{{ item.order.waiter.name }}</td>
+      <td>
+        {% if item.kitchen_status != 'ready' %}
+          <a href="{% url 'update_kitchen_status' item.id %}" class="btn btn-sm btn-outline-primary">
+            {% if item.kitchen_status == 'pending' %}
+              Start Preparing
+            {% else %}
+              Mark Ready
+            {% endif %}
+          </a>
+        {% else %}
+          <i class="bi bi-check2-circle text-success"></i>
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">No pending items 🎉</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

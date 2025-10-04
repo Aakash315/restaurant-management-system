@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h3>Edit Menu Item - {{ item.name }}</h3>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save Changes</button>
+    <a href="{% url 'menu_management' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

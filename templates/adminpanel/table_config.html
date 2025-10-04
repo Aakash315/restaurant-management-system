@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container py-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-primary">
+      <i class="bi bi-arrow-left-circle"></i> Back To Dashboard
+    </a>
+    <a href="{% url 'add_table' %}" class="btn btn-success">
+      <i class="bi bi-plus-circle-fill"></i> Add New Table
+    </a>
+  </div>
+
+  <h2 class="mb-4 text-primary"><i class="bi bi-table"></i> Table Configuration</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle table-bordered table-striped">
+      <thead class="table-dark text-center">
+        <tr>
+          <th>Table Number</th>
+          <th>Capacity</th>
+          <th>Assigned Waiter</th>
+          <th>Is Occupied</th>
+          <th>Last Activity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for table in tables %}
+        <tr>
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="table_id" value="{{ table.id }}">
+            <td class="text-center fw-bold">{{ table.number }}</td>
+            <td>
+              <input type="number" name="capacity" value="{{ table.capacity }}" class="form-control" min="1" required>
+            </td>
+            <td>
+              <select name="waiter_id" class="form-select">
+                <option value="">-- None --</option>
+                {% for waiter in waiters %}
+                  <option value="{{ waiter.id }}" {% if table.assigned_waiter == waiter %}selected{% endif %}>
+                    {{ waiter.user.get_full_name|default:waiter.user.username }}
+                  </option>
+                {% endfor %}
+              </select>
+            </td>
+            <td class="text-center">
+              <div class="form-check d-flex justify-content-center">
+                <input type="checkbox" class="form-check-input" name="is_occupied" {% if table.is_occupied %}checked{% endif %}>
+              </div>
+            </td>
+            <td class="text-center text-muted small">
+              {{ table.last_activity|date:"Y-m-d H:i" }}
+            </td>
+            <td class="text-center">
+              <button type="submit" class="btn btn-sm btn-primary">
+                <i class="bi bi-save-fill"></i> Update
+              </button>
+            </td>
+          </form>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}

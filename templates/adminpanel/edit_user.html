@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit User - {{ user_obj.username }}</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control" value="{{ user_obj.username }}" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" value="{{ user_obj.email }}" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label>First Name</label>
+                <input type="text" name="first_name" class="form-control" value="{{ user_obj.first_name }}">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label>Last Name</label>
+                <input type="text" name="last_name" class="form-control" value="{{ user_obj.last_name }}">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label>Role</label>
+                <select name="role" class="form-select" required>
+                    <option value="">Select Role</option>
+                    {% for key, val in staff.ROLE_CHOICES %}
+                        <option value="{{ key }}" {% if key == staff.role %}selected{% endif %}>{{ val }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label>New Password (leave blank to keep current)</label>
+                <input type="password" name="password" class="form-control">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'user_management' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

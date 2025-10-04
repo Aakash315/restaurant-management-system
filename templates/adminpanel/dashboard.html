@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+  {% if request.user.is_authenticated %}
+  <div class="d-flex justify-content-end">
+    <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">
+      <i class="bi bi-box-arrow-right"></i> Logout
+    </a>
+  </div>
+  {% endif %}
+
+  <div class="text-center mb-4">
+    <h2 class="fw-bold"><i class="bi bi-gear-fill text-primary"></i> Admin Control Panel</h2>
+    <p class="text-muted">Manage all core functions from a single dashboard</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4">
+      <a href="{% url 'menu_management' %}" class="text-decoration-none">
+        <div class="card text-white bg-dark shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="mb-3 display-4">🍽️</div>
+            <h5 class="card-title">Manage Menu</h5>
+            <p class="card-text small">Add, update, or remove food items and categories.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <a href="{% url 'table_config' %}" class="text-decoration-none">
+        <div class="card text-white bg-dark shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="mb-3 display-4">🪑</div>
+            <h5 class="card-title">Configure Tables</h5>
+            <p class="card-text small">Setup table layout, availability, and capacity.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <a href="{% url 'user_management' %}" class="text-decoration-none">
+        <div class="card text-white bg-dark shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="mb-3 display-4">👥</div>
+            <h5 class="card-title">Manage Users & Roles</h5>
+            <p class="card-text small">Control user access, permissions, and staff roles.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <a href="{% url 'tax_settings' %}" class="text-decoration-none">
+        <div class="card text-white bg-dark shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="mb-3 display-4">💰</div>
+            <h5 class="card-title">Tax & Service Charges</h5>
+            <p class="card-text small">Configure tax rates, service fees, and billing rules.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

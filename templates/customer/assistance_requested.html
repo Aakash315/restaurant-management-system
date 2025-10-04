@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="alert alert-info">
+  <h4><i class="bi bi-person-fill-exclamation"></i> Assistance Requested</h4>
+  <p>Your waiter has been notified. Please wait for assistance.</p>
+</div>
+<a href="{% url 'menu_view' %}" class="btn btn-secondary">Back to Menu</a>
+{% endblock %}

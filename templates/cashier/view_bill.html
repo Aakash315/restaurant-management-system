@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Bill for Table {{ bill.order.table.number }}</h3>
+<p><strong>Customer Name:</strong> {{ bill.order.customer.name }}</p>
+<p><strong>Customer Mobile:</strong> {{ bill.order.customer.mobile }}</p>
+<p><strong>Waiter:</strong> {{ bill.order.waiter.name }}</p>
+<p><strong>Date:</strong> {{ bill.generated_at|date:"d M Y H:i A" }}</p>
+
+<table class="table table-sm">
+  <thead>
+    <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+  </thead>
+  <tbody>
+    {% for item in bill.order.items.all %}
+    <tr>
+      <td>{{ item.item.name }}</td>
+      <td>{{ item.quantity }}</td> 
+      <td>${{ item.item.price }}</td>
+      <td>${{ item.total_price|floatformat:2 }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td colspan="3" class="text-end"><strong>Subtotal:</strong></td>
+      <td><strong>${{ bill.total }}</strong></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-end">CGST ({{ bill.get_tax_setting.cgst }}%)</td>
+      <td>${{ bill.cgst_amount|floatformat:2 }}</td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-end">SGST ({{ bill.get_tax_setting.sgst }}%)</td>
+      <td>${{ bill.sgst_amount|floatformat:2 }}</td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-end">Tip:</td>
+      <td>${{ bill.tip }}</td>
+    </tr>
+    <tr class="table-success">
+      <td colspan="3" class="text-end">Total Due:</td>
+      <td><strong>${{ bill.grand_total_with_tax|floatformat:2 }}</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Finalize form -->
+<form method="post" action="{% url 'finalize_bill' bill.id %}">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label>Discount (Optional):</label>
+    <input type="number" step="0.1" min="0" value="0" name="discount" class="form-control" placeholder="0.00" />
+  </div>
+  <div class="mb-3">
+    <label>Payment Method:</label>
+    <select name="method" class="form-control" required>
+      <option value="">-- Select --</option>
+      <option value="Cash">Cash</option>
+      <option value="Card">Card</option>
+      <option value="UPI">UPI</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-success">
+    <i class="bi bi-cash-coin"></i> Finalize & Mark as Paid
+  </button>
+</form>
+
+<a href="{% url 'generate_receipt' bill.id %}" target="_blank" class="btn btn-outline-dark">
+  <i class="bi bi-printer"></i> Print Receipt
+</a>
+
+
+<a href="{% url 'cashier_dashboard' %}" class="btn btn-secondary mt-3">← Back</a>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <a href="{% url 'add_user' %}" class="btn btn-success">+ Add User</a>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-primary">Back To Dashboard</a>
+  </div>
+
+    <h2 class="mb-4">User Management</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Change Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for staff in staff_members %}
+            <tr>
+                <td>{{ staff.user.username }}</td>
+                <td>{{ staff.user.get_full_name }}</td>
+                <td>{{ staff.user.email }}</td>
+                <td>{{ staff.role }}</td>
+                <td>
+                    {% if staff.user.is_active %}
+                        <span class="badge bg-success">Active</span>
+                    {% else %}
+                        <span class="badge bg-danger">Inactive</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <form method="post" class="d-flex">
+                        {% csrf_token %}
+                        <input type="hidden" name="staff_id" value="{{ staff.id }}">
+                        <input type="hidden" name="action" value="change_role">
+                        <select name="role" class="form-select form-select-sm me-2">
+                            {% for key, val in staff.ROLE_CHOICES %}
+                                <option value="{{ key }}" {% if key == staff.role %}selected{% endif %}>
+                                    {{ val }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="staff_id" value="{{ staff.id }}">
+                        <input type="hidden" name="action" value="toggle_active">
+                        <button type="submit" class="btn btn-sm {% if staff.user.is_active %}btn-warning{% else %}btn-success{% endif %}">
+                            {% if staff.user.is_active %}Deactivate{% else %}Activate{% endif %}
+                        </button>
+                    </form>
+                    <a href="{% url 'edit_user' staff.user.id %}" class="btn btn-sm btn-info">Edit</a>
+
+                    <form method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                        {% csrf_token %}
+                        <input type="hidden" name="staff_id" value="{{ staff.id }}">
+                        <input type="hidden" name="action" value="delete_user">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

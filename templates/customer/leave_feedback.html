@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3><i class="bi bi-chat-left-dots"></i> We’d love your feedback!</h3>
+
+<form method="post">
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label for="rating">Your Rating</label>
+    <select name="rating" class="form-control" required>
+      <option value="">-- Select --</option>
+      {% for i in "54321" %}
+      <option value="{{ i }}">{{ i }} ★</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="comment">Comments (Optional)</label>
+    <textarea name="comment" class="form-control" rows="4" placeholder="Share your experience..."></textarea>
+  </div>
+
+  <button class="btn btn-success"><i class="bi bi-send"></i> Submit Feedback</button>
+</form>
+{% endblock %}
