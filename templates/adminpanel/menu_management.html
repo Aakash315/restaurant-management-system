@@ -1,43 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
+<div class="container mt-5">
   <a href="{% url 'add_menu_item' %}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Add Item</a>
-  <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-primary"><i class="bi bi-arrow-left-circle"></i> Back To Dashboard</a>
+  <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-primary"><i class="bi bi-arrow-left-circle"></i> Back To
+    Dashboard</a>
   <div class="text-center">
-  <h3>🍽️ Menu Management</h3>
-  <hr>
-  <h5><u>All Menu Items</u></h5>
+    <h3>🍽️ Menu Management</h3>
+    <hr>
+    <h5><u>All Menu Items</u></h5>
   </div>
   <!-- Search Form -->
   <form method="get" class="mb-3">
-  <div class="input-group mb-2">
-    <input
-      type="text"
-      name="q"
-      class="form-control"
-      placeholder="Search by name..."
-      value="{{ query|default:'' }}"
-    >
-    <select name="category" class="form-select">
-      <option value="" {% if not category %}selected{% endif %}>All</option>
-      <option value="Veg" {% if category == 'Veg' %}selected{% endif %}>Vegetarian</option>
-      <option value="Non-Veg" {% if category == 'Non-Veg' %}selected{% endif %}>Non-Vegetarian</option>
-    </select>
-    <select name="meal_type" class="form-select">
-      <option value="" {% if not meal_type %}selected{% endif %}>All</option>
-      {% for key, label in items.first.MEAL_TYPE_CHOICES %}
+    <div class="input-group mb-2">
+      <input type="text" name="q" class="form-control" placeholder="Search by name..." value="{{ query|default:'' }}">
+      <select name="category" class="form-select">
+        <option value="" {% if not category %}selected{% endif %}>All</option>
+        <option value="Veg" {% if category == 'Veg' %}selected{% endif %}>Vegetarian</option>
+        <option value="Non-Veg" {% if category == 'Non-Veg' %}selected{% endif %}>Non-Vegetarian</option>
+      </select>
+      <select name="meal_type" class="form-select">
+        <option value="" {% if not meal_type %}selected{% endif %}>All</option>
+        {% for key, label in items.first.MEAL_TYPE_CHOICES %}
         <option value="{{ key }}" {% if meal_type == key %}selected{% endif %}>{{ label }}</option>
-      {% endfor %}
-    </select>
-    <button type="submit" class="btn btn-outline-primary"><i class="bi bi-search"></i> Search</button>
-    {% if query or category %}
-    <a href="{% url 'menu_management' %}" class="btn btn-outline-secondary">Clear</a>
-    {% endif %}
-  </div>
-</form>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn btn-outline-primary"><i class="bi bi-search"></i> Search</button>
+      {% if query or category %}
+      <a href="{% url 'menu_management' %}" class="btn btn-outline-secondary">Clear</a>
+      {% endif %}
+    </div>
+  </form>
 
   <!-- Menu Items Table -->
-  <table class="table table-bordered">
+  <table class="custom-table">
     <thead>
       <tr>
         <th>Serial No.</th>
@@ -65,8 +60,9 @@
         <td>{{ item.stock_quantity }}</td>
         <td>{{ item.low_stock_threshold }}</td>
         <td>
-          <a href="{% url 'edit_menu_item' item.id %}" class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
-          <a href="{% url 'delete_menu_item' item.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"><i class="bi bi-trash"></i></a>
+          <a href="{% url 'edit_menu_item' item.id %}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+          <a href="{% url 'delete_menu_item' item.id %}" class="btn btn-sm btn-danger"
+            onclick="return confirm('Are you sure you want to delete this item?');"><i class="bi bi-trash"></i></a>
         </td>
       </tr>
       {% endfor %}

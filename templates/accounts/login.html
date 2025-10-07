@@ -1,18 +1,55 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
+
+<!-- Header: Logo and Staff Login -->
+<!-- <div class="p-5">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 text-center text-md-start">
+    <div class="mb-3 mb-md-0">
+      <img src="{% static 'images/logo-removebg.png' %}" alt="Logo" style="width: 150px; height: auto;">
+    </div>
+    <div class="register">
+      <h1 class="text-center">Mama's Kitchen</h1>
+      <p class="text-center">Veg & Non-Veg</p>
+    </div>
+    <div class="register">
+      <a href="{% url 'customer_register' %}" class="btn">
+        <i class="bi bi-box-arrow-in-right"></i> Back To Home
+      </a>
+    </div>
+  </div>
+</div> -->
+
 <div class="container mt-5">
-  <h3><i class="bi bi-person-circle"></i> Staff Login</h3>
-  <form method="post">
-    {% csrf_token %}
-    <div class="mb-3">
-      <label>Username</label>
-      <input type="text" name="username" class="form-control" required>
+  <div class="register-card row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+
+      <div class="card shadow-sm" style="border-radius: 15px 50px 30px;">
+        <div class="card-header text-white text-center">
+          <h4><i class="bi bi-person-circle"></i> Staff Login</h4>
+        </div>
+        <div class="card-body">
+
+          <!-- <h3><i class="bi bi-person-circle"></i> Staff Login</h3> -->
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label"><i class="bi bi-person-fill"></i> Username</label>
+              <input type="text" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label"><i class="bi bi-key"></i> Password</label>
+              <input type="password" name="password" class="form-control" required>
+              <a href="{% url 'forgot_password' %}" class="text-decoration-none" style="color: brown;">Forgot password?</a>
+            </div>
+            <div class="d-grid">
+              <button class="btn btn-primary"><i class="bi bi-send-fill"></i>Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="mb-3">
-      <label>Password</label>
-      <input type="password" name="password" class="form-control" required>
-    </div>
-    <button class="btn btn-primary">Login</button>
-  </form>
+  </div>
 </div>
 {% endblock %}

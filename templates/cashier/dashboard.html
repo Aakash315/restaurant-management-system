@@ -1,39 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% if request.user.is_authenticated %}
-    <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">
-        <i class="bi bi-box-arrow-right"></i> Logout
-    </a>
-    {% endif %}
-<h3><i class="bi bi-cash-stack"></i> Pending Bills</h3>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Table</th>
-      <th>Customer</th>
-      <th>Total</th>
-      <th>Tip</th>
-      <th>Final Total</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for bill in bills %}
-    <tr>
-      <td>{{ bill.order.table.number }}</td>
-      <td>{{ bill.order.customer.name }}</td>
-      <td>${{ bill.total }}</td>
-      <td>${{ bill.tip }}</td>
-      <td>${{ bill.grand_total_with_tax|floatformat:2 }}</td>
-      <td>
-        <a href="{% url 'view_bill' bill.id %}" class="btn btn-sm btn-outline-primary">
-          <i class="bi bi-eye"></i> View
-        </a>
-      </td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="6">No unpaid bills 🎉</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="container mt-5">
+  <a href="{% url 'paid_bills' %}" class="btn btn-outline-danger">Paid Bills</a>
+  <h3 class="text-center" style="color: brown;"><i class="bi bi-cash-stack"></i> Pending Bills</h3>
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th>Table</th>
+        <th>Customer</th>
+        <th>Total</th>
+        <th>Tip</th>
+        <th>Final Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bill in bills %}
+      <tr class="text-center">
+        <td>{{ bill.order.table.number }}</td>
+        <td>{{ bill.order.customer.name }}</td>
+        <td>${{ bill.total }}</td>
+        <td>${{ bill.tip }}</td>
+        <td>${{ bill.grand_total_with_tax|floatformat:2 }}</td>
+        <td>
+          <a href="{% url 'view_bill' bill.id %}" class="btn btn-sm btn-outline-primary">
+            <i class="bi bi-eye"></i> View
+          </a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6">No unpaid bills 🎉</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

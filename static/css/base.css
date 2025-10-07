@@ -1,0 +1,244 @@
+/* Background and page setup */
+body {
+    background-color: white;
+    /* background-image: url("../images/bg.jpg"); */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: rgb(241, 208, 166);
+}
+
+/* Header styles */
+.register h1 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 60px;
+    font-weight: 800;
+    color: rgb(191, 32, 32);
+    margin-bottom: 5px;
+}
+
+.register p {
+    margin: 0;
+    padding: 0;
+    font-size: 22px;
+    color: rgb(191, 32, 32);
+    letter-spacing: 1px;
+}
+
+/* Staff login button */
+.register a {
+    background-color: brown;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.register a:hover {
+    background-color: #e16464;
+    color: white;
+}
+
+/* Card container */
+.register-card .card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+/* Card header */
+.card-header {
+    background-color: brown;
+    padding: 20px 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.card-header h4 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+/* Form inputs */
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: brown;
+    box-shadow: 0 0 5px rgba(165, 42, 42, 0.5);
+}
+
+/* Labels */
+.form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+/* Submit button */
+/* .btn-primary {
+    background-color: brown;
+    border-color: brown;
+    padding: 12px 0;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+} */
+
+/* .btn-primary:hover {
+    background-color: #a83232;
+    border-color: #a83232;
+} */
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .register h1 {
+        font-size: 42px;
+    }
+
+    .register p {
+        font-size: 18px;
+    }
+
+    .register a {
+        font-size: 0.9rem;
+        padding: 8px 14px;
+    }
+}
+
+
+footer {
+    background-color: rgb(241, 208, 166);
+}
+
+.footer-rights{
+    font-size: 20px;
+    font-weight: 500;
+    background-color: rgb(248, 233, 164);
+}
+
+.our-branch a,
+.our-services a,
+.contact-us a,
+.contact-us span,
+.footer-para p {
+    font-size: 15 px;
+    font-weight: 500;
+}
+
+
+
+
+/* admin page  */
+
+.admin-card .card {
+    background-color: rgb(241, 208, 166) !important;  /* Bootstrap primary color */
+    color: brown !important;
+    transform: scale(1.02);
+    transition: all 0.3s ease-in-out;
+    font-weight: 600;
+  }
+
+
+.admin-card:hover .card {
+    background-color: #df7171 !important; /* Bootstrap primary color */
+    color: white !important;
+    transform: scale(1.02);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .admin-card:hover .card .card-text,
+  .admin-card:hover .card .card-title {
+    color: white !important;
+  }
+
+
+  .custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  .custom-table th {
+    background-color: rgb(241, 208, 166);
+    color: brown;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+
+  .custom-table td {
+    background-color: #FFFACD;
+    color: #992d2d;
+    padding: 10px;
+    /* text-align: center; */
+    border: 1px solid #ddd;
+  }
+
+  .custom-table td a.btn {
+    margin: 0 2px;
+  }
+
+  .custom-table tr:hover td {
+    background-color: #f5e79e; 
+  }
+
+
+
+
+/* customer  */
+/* Custom styling for nav-tabs */
+.nav-tabs {
+  border-bottom: 2px solid #ddd;
+}
+
+.nav-tabs .nav-link {
+  color: brown;
+  font-weight: 700;
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-radius: 5px 5px 0 0;
+  transition: all 0.3s ease;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.nav-tabs .nav-link:hover {
+  border-color: #e0e0e0 #e0e0e0 #ddd;
+  background-color: #df7171;
+  color: #000;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #df7171;
+  color: #fbfbfb;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+}
+
+/* Center alignment using flexbox */
+.nav-tabs.justify-content-center {
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+  .nav-tabs .nav-link {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}

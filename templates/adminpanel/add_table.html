@@ -9,39 +9,48 @@
     </a>
   </div>
 
-  <div class="card shadow-sm">
-    <div class="card-header bg-success text-white">
-      <h4 class="mb-0"><i class="bi bi-plus-circle-fill"></i> Add New Table</h4>
-    </div>
+  <div class="container mt-5">
+    <div class="register-card row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6">
 
-    <div class="card-body">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="card shadow-sm" style="border-radius: 15px 50px 30px;">
+          <div class="card-header text-white text-center">
+            <h4 class="mb-0"><i class="bi bi-plus-circle-fill"></i> Add New Table</h4>
           </div>
-        {% endfor %}
-      {% endif %}
 
-      <form method="post" novalidate>
-        {% csrf_token %}
-        <div class="mb-3">
-          <label for="number" class="form-label"><i class="bi bi-hash"></i> Table Number</label>
-          <input type="number" name="number" id="number" class="form-control" min="1" required placeholder="e.g., 5">
-        </div>
+          <div class="card-body">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
 
-        <div class="mb-3">
-          <label for="capacity" class="form-label"><i class="bi bi-people-fill"></i> Capacity</label>
-          <input type="number" name="capacity" id="capacity" class="form-control" min="1" required placeholder="e.g., 4">
-        </div>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="number" class="form-label"><i class="bi bi-hash"></i> Table Number</label>
+                <input type="number" name="number" id="number" class="form-control" min="1" required
+                  placeholder="e.g., 5">
+              </div>
 
-        <div class="d-grid">
-          <button type="submit" class="btn btn-success">
-            <i class="bi bi-check-circle-fill"></i> Add Table
-          </button>
+              <div class="mb-3">
+                <label for="capacity" class="form-label"><i class="bi bi-people-fill"></i> Capacity</label>
+                <input type="number" name="capacity" id="capacity" class="form-control" min="1" required
+                  placeholder="e.g., 4">
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-success">
+                  <i class="bi bi-check-circle-fill"></i> Add Table
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>

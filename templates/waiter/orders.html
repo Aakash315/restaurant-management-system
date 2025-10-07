@@ -1,40 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
-<a href="{% url 'waiter_dashboard' %}" class="btn btn-outline-primary">Back To Dashboard</a>
+<div class="container mt-5">
+  <a href="{% url 'waiter_dashboard' %}" class="btn btn-outline-primary">Back To Dashboard</a>
 
-<h3><i class="bi bi-clipboard-check"></i> Assigned Orders</h3>
+  <h3 class="text-center" style="color: brown;"><i class="bi bi-clipboard-check"></i> Assigned Orders</h3>
 
-{% for order in orders %}
-<div class="card mb-4">
-  <div class="card-header">
-    <strong>Table {{ order.table.number }}</strong> | Customer: {{ order.customer.name }}
-  </div>
-  <div class="card-body">
-    <table class="table table-sm">
+  {% for order in orders %}
+  <div class="mb-4 mt-4">
+    <h4 style="color: brown;"><strong>Table {{ order.table.number }}</strong> | Customer: {% if order.customer %}
+      {{ order.customer.name|title }}
+      {% else %}
+      <span class="text-danger">Unknown</span>
+      {% endif %}
+    </h4>
+    <table class="custom-table">
       <thead>
         <tr>
-          <th>Item</th><th>Qty</th><th>Status</th><th>Action</th>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Status</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
         {% for item in order.items.all %}
         <tr>
           <td>{{ item.item.name }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>
+          <td class="text-center">{{ item.quantity }}</td>
+          <td class="text-center">
             {% if item.is_delivered %}
-              <span class="badge bg-success">Delivered</span>
+            <span class="badge bg-success">Delivered</span>
             {% else %}
-              <span class="badge bg-warning">Pending</span>
+            <span class="badge bg-warning">Pending</span>
             {% endif %}
           </td>
-          <td>
+          <td class="text-center">
             {% if not item.is_delivered %}
-              <a href="{% url 'mark_item_delivered' item.id %}" class="btn btn-sm btn-outline-success">
-                <i class="bi bi-check-circle"></i> Mark as Delivered
-              </a>
+            <a href="{% url 'mark_item_delivered' item.id %}" class="btn btn-sm btn-outline-success">
+              <i class="bi bi-check-circle"></i> Mark as Delivered
+            </a>
             {% else %}
-              <i class="bi bi-check-circle-fill text-success"></i>
+            <i class="bi bi-check-circle-fill text-success"></i>
             {% endif %}
           </td>
         </tr>
@@ -42,8 +48,8 @@
       </tbody>
     </table>
   </div>
+  {% empty %}
+  <p>No active orders found.</p>
+  {% endfor %}
 </div>
-{% empty %}
-<p>No active orders found.</p>
-{% endfor %}
 {% endblock %}

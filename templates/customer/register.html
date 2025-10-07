@@ -1,15 +1,37 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+
+<!-- Header: Logo and Staff Login -->
+<!-- <div class="p-5">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 text-center text-md-start">
+    <div class="mb-3 mb-md-0">
+      <img src="{% static 'images/logo-removebg.png' %}" alt="Logo" style="width: 150px; height: auto;">
+    </div>
+    <div class="register">
+      <h1 class="text-center">Mama's Kitchen</h1>
+      <p class="text-center">Veg & Non-Veg</p>
+    </div>
+    <div class="register">
+      <a href="{% url 'login' %}" class="btn">
+        <i class="bi bi-box-arrow-in-right"></i> Staff Login
+      </a>
+    </div>
+  </div>
+</div> -->
+
+<!-- Form Card -->
 <div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white text-center">
+  <div class="register-card row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+
+      <div class="card shadow-sm" style="border-radius: 15px 50px 30px;">
+        <div class="card-header text-white text-center">
           <h4><i class="bi bi-person-lines-fill"></i> Enter Your Details</h4>
         </div>
         <div class="card-body">
-          <form method="post">
+          <form method="post" novalidate>
             {% csrf_token %}
             <div class="mb-3">
               <label for="name" class="form-label"><i class="bi bi-person-fill"></i> Name</label>
@@ -17,14 +39,17 @@
             </div>
             <div class="mb-3">
               <label for="mobile" class="form-label"><i class="bi bi-phone-fill"></i> Mobile Number</label>
-              <input type="text" name="mobile" id="mobile" class="form-control" placeholder="10-digit Mobile Number" required>
+              <input type="tel" name="mobile" id="mobile" class="form-control" placeholder="10-digit Mobile Number"
+                pattern="[0-9]{10}" required>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label"><i class="bi bi-envelope-fill"></i> Email</label>
               <input type="email" name="email" id="email" class="form-control" placeholder="you@example.com" required>
             </div>
             <div class="d-grid">
-              <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill"></i> Submit</button>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-send-fill"></i> Submit
+              </button>
             </div>
           </form>
         </div>
@@ -32,4 +57,5 @@
     </div>
   </div>
 </div>
+
 {% endblock %}

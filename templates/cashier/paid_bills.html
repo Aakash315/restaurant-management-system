@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <a href="{% url 'cashier_dashboard' %}" class="btn btn-outline-danger mt-3 mb-4">← Back</a>
+    <h2 class="text-center" style="color: brown;">Paid Bills</h2>
+
+    {% if bills %}
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th scope="col">Table Number</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Payment Method</th>
+                <th scope="col">Date</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bill in bills %}
+            <tr class="text-center">
+                <td>{{ bill.order.table.number }}</td>
+                <td>{{ bill.order.customer.name| title }}</td>
+                <td>{{ bill.total }}</td>
+                <td>{{ bill.payment_method }}</td>
+                <td>{{ bill.generated_at|date:"d M Y H:i A" }}</td>
+                <td>
+                    <a href="{% url 'show_bill' bill.id %}" class="btn btn-outline-danger">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No paid bills yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -2,25 +2,20 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-4">
-  {% if request.user.is_authenticated %}
-  <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">
-      <i class="bi bi-box-arrow-right"></i> Logout
-  </a>
-  {% endif %}
-    <h2 class="mb-4">Manager Dashboard</h2>
+<div class="container mt-5">
+    <h2 class="mb-4 text-center" style="color: brown;"><u>Manager Dashboard</u></h2>
 
     <!-- Navigation Links -->
     <div class="mb-4">
-        <a href="{% url 'manager_feedback' %}" class="btn btn-outline-primary btn-sm">View Feedback</a>
-        <a href="{% url 'manager_report' %}" class="btn btn-outline-success btn-sm">Daily Report</a>
-        <a href="{% url 'inventory_dashboard' %}" class="btn btn-outline-warning btn-sm">Inventory</a>
+        <a href="{% url 'manager_feedback' %}" class="btn btn-outline-primary">View Feedback</a>
+        <a href="{% url 'manager_report' %}" class="btn btn-outline-success">Daily Report</a>
+        <a href="{% url 'inventory_dashboard' %}" class="btn btn-outline-warning">Inventory</a>
     </div>
 
     <!-- Tables Overview -->
-    <h4>Tables Overview</h4>
-    <table class="table table-bordered table-hover">
-        <thead class="thead-light">
+    <h4 class="text-center" style="color: brown;">Tables Overview</h4>
+    <table class="custom-table">
+        <thead class="">
             <tr>
                 <th>Table Number</th>
                 <th>Capacity</th>
@@ -31,7 +26,7 @@
         </thead>
         <tbody>
             {% for table in tables %}
-            <tr>
+            <tr class="text-center">
                 <td>{{ table.number }}</td>
                 <td>{{ table.capacity }}</td>
                 <td>
@@ -44,7 +39,7 @@
                 <td>
                     {{ table.assigned_waiter.user.username|default:"-" }}
                 </td>
-                <td>{{ table.last_activity|date:"Y-m-d H:i" }}</td>
+                <td>{{ table.last_activity|date:"Y-m-d H:i A" }}</td>
             </tr>
             {% empty %}
             <tr>
@@ -55,8 +50,8 @@
     </table>
 
     <!-- Recent Orders -->
-    <h4 class="mt-5">Recent Orders</h4>
-    <table class="table table-striped table-hover">
+    <h4 class="text-center mt-5 mb-3" style="color: brown;">Recent Orders</h4>
+    <table class="custom-table">
         <thead>
             <tr>
                 <th>Order ID</th>
@@ -69,10 +64,10 @@
         </thead>
         <tbody>
             {% for order in orders %}
-            <tr>
+            <tr class="text-center">
                 <td>#{{ order.id }}</td>
                 <td>{{ order.table.number }}</td>
-                <td>{{ order.customer.name }}</td>
+                <td>{{ order.customer.name|title }}</td>
                 <td>{{ order.waiter.user.username|default:"-" }}</td>
                 <td><span class="badge bg-info text-dark">{{ order.status }}</span></td>
                 <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>

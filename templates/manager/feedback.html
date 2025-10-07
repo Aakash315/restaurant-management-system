@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<h3><i class="bi bi-chat-dots"></i> Customer Feedback</h3>
+<div class="container mt-5">
+  <a href="{% url 'manager_dashboard' %}" class="btn btn-info">← Back</a>
+<h3 class="text-center" style="color: brown;"><i class="bi bi-chat-dots"></i> Customer Feedback</h3>
 
-<table class="table">
+<table class="custom-table">
   <thead><tr><th>Table</th><th>Rating</th><th>Comment</th><th>Time</th></tr></thead>
   <tbody>
     {% for fb in feedbacks %}
@@ -15,5 +17,5 @@
     {% endfor %}
   </tbody>
 </table>
-<a href="{% url 'manager_dashboard' %}" class="btn btn-secondary">← Back</a>
+</div>
 {% endblock %}

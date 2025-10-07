@@ -1,50 +1,66 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-5">
-    <h2>Edit User - {{ user_obj.username }}</h2>
+    <div class="register-card row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
+            <div class="card shadow-sm" style="border-radius: 15px 50px 30px;">
+                <div class="card-header text-white text-center">
+                    <h4 class="mb-0"><i class="bi bi-patch-plus"></i> Edit User - {{ user_obj.username }}</h4>
+                </div>
 
-    <form method="post">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label>Username</label>
-                <input type="text" name="username" class="form-control" value="{{ user_obj.username }}" required>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>Email</label>
-                <input type="email" name="email" class="form-control" value="{{ user_obj.email }}" required>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>First Name</label>
-                <input type="text" name="first_name" class="form-control" value="{{ user_obj.first_name }}">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>Last Name</label>
-                <input type="text" name="last_name" class="form-control" value="{{ user_obj.last_name }}">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>Role</label>
-                <select name="role" class="form-select" required>
-                    <option value="">Select Role</option>
-                    {% for key, val in staff.ROLE_CHOICES %}
-                        <option value="{{ key }}" {% if key == staff.role %}selected{% endif %}>{{ val }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label>New Password (leave blank to keep current)</label>
-                <input type="password" name="password" class="form-control">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
+
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" name="username" class="form-control" value="{{ user_obj.username }}"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" value="{{ user_obj.email }}"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">First Name</label>
+                                <input type="text" name="first_name" class="form-control"
+                                    value="{{ user_obj.first_name }}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" name="last_name" class="form-control"
+                                    value="{{ user_obj.last_name }}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Role</label>
+                                <select name="role" class="form-select" required>
+                                    <option value="">Select Role</option>
+                                    {% for key, val in staff.ROLE_CHOICES %}
+                                    <option value="{{ key }}" {% if key == staff.role %}selected{% endif %}>{{ val }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">New Password (leave blank to keep current)</label>
+                                <input type="password" name="password" class="form-control">
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <a href="{% url 'user_management' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a href="{% url 'user_management' %}" class="btn btn-secondary">Cancel</a>
-    </form>
+    </div>
 </div>
 {% endblock %}

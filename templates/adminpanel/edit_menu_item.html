@@ -1,12 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
-  <h3>Edit Menu Item - {{ item.name }}</h3>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Save Changes</button>
-    <a href="{% url 'menu_management' %}" class="btn btn-secondary">Cancel</a>
-  </form>
+<div class="container mt-5">
+  <div class="register-card row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+
+      <div class="card shadow-sm" style="border-radius: 15px 50px 30px;">
+        <div class="card-header text-white text-center">
+          <h3>Edit Menu Item - {{ item.name }}</h3>
+        </div>
+        <div class="card-body">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="text-center">
+              <button type="submit" class="btn btn-success">Save Changes</button>
+              <a href="{% url 'menu_management' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

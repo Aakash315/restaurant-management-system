@@ -67,3 +67,13 @@ def generate_receipt(request, bill_id):
         return HttpResponse(response.getvalue(), content_type='application/pdf')
     else:
         return HttpResponse("PDF generation error", status=500)
+
+@login_required
+def paid_bills(request):
+    bills = Bill.objects.filter(is_paid=True).select_related('order__customer', 'order__table')
+    return render(request, 'cashier/paid_bills.html', {'bills': bills})
+
+
+def show_bill(request, bill_id):
+    bill = get_object_or_404(Bill, id=bill_id)
+    return render(request, 'cashier/show_bill.html', {'bill': bill, 'cgst': bill.cgst_amount(), 'sgst': bill.sgst_amount(), 'grand_total_with_tax': bill.grand_total_with_tax()})

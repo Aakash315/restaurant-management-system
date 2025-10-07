@@ -1,36 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
-<h3><i class="bi bi-bar-chart-line"></i> Daily Report - {{ date }}</h3>
+<div class="container mt-5">
+  <a href="{% url 'manager_dashboard' %}" class="btn btn-info">← Back</a>
+  <h3 class="text-center" style="color: brown;"><i class="bi bi-bar-chart-line"></i> Daily Report - {{ date }}</h3>
 
-<div class="row">
-  <div class="col-md-4"><div class="card p-3">
-    <strong>Total Revenue:</strong> ${{ total_revenue|floatformat:2 }}
-  </div></div>
-  <div class="col-md-4"><div class="card p-3">
-    <strong>Total Tips:</strong> ${{ total_tips|floatformat:2 }}
-  </div></div>
-  <div class="col-md-4"><div class="card p-3">
-    <strong>Total Orders:</strong> {{ order_count }}
-  </div></div>
+  <div class="row mt-3">
+    <div class="col-md-4">
+      <div class="card p-3">
+        <strong>Total Revenue:</strong> ${{ total_revenue|floatformat:2 }}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3">
+        <strong>Total Tips:</strong> ${{ total_tips|floatformat:2 }}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3">
+        <strong>Total Orders:</strong> {{ order_count }}
+      </div>
+    </div>
+  </div>
+
+  <h5 class="mt-5 mb-3 text-center" style="color: brown;">🧾 Paid Bills</h5>
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th>Table</th>
+        <th>Total</th>
+        <th>Tip</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bill in bills %}
+      <tr>
+        <td>{{ bill.order.table.number }}</td>
+        <td>${{ bill.total|floatformat:2 }}</td>
+        <td>${{ bill.tip|floatformat:2 }}</td>
+        <td>{{ bill.generated_at|date:" H:i A" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'export_daily_report_csv' %}" class="btn btn-outline-primary mt-5 mb-3">
+    <i class="bi bi-file-earmark-arrow-down"></i> Export CSV
+  </a>
+
 </div>
-
-<h5 class="mt-4">🧾 Paid Bills</h5>
-<table class="table table-sm">
-  <thead><tr><th>Table</th><th>Total</th><th>Tip</th><th>Time</th></tr></thead>
-  <tbody>
-    {% for bill in bills %}
-    <tr>
-      <td>{{ bill.order.table.number }}</td>
-      <td>${{ bill.total|floatformat:2 }}</td>
-      <td>${{ bill.tip|floatformat:2 }}</td>
-      <td>{{ bill.generated_at|date:" H:i A" }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<a href="{% url 'export_daily_report_csv' %}" class="btn btn-outline-secondary mb-3">
-  <i class="bi bi-file-earmark-arrow-down"></i> Export CSV
-</a>
-
-<a href="{% url 'manager_dashboard' %}" class="btn btn-secondary">← Back</a>
 {% endblock %}

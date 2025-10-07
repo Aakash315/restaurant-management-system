@@ -79,6 +79,24 @@ def enter_members(request):
         customer.table = table
         customer.save()
 
+        subject = 'Table Assigned - Mama\'s Kitchen'
+        message = (
+            f'Dear {customer.name},\n\n'
+            f'Your table has been successfully reserved for {num_members} member(s).\n'
+            f'Table Number: {table.id}\n'
+            # f'Assigned Waiter: {random_waiter.name}\n\n'
+            'Enjoy your meal at Mama\'s Kitchen!\n'
+        )
+        recipient_list = [customer.email]
+
+        send_mail(
+            subject,
+            message,
+            'yourrestaurant@example.com',
+            recipient_list,
+            fail_silently=False,
+        )
+
         return redirect(f"{reverse('menu_view')}?meal_type=breakfast")
 
     return render(request, 'customer/enter_members.html') 
