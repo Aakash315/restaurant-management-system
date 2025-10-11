@@ -2,30 +2,30 @@
 {% load static %}
 {% block content %}
 
-<div class="container py-4">
+<div class="container-fluid py-4">
 
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-primary">
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-success">
       <i class="bi bi-arrow-left-circle"></i> Back To Dashboard
     </a>
-    <a href="{% url 'add_table' %}" class="btn btn-outline-primary">
+    <a href="{% url 'add_table' %}" class="btn btn-success">
       <i class="bi bi-plus-circle-fill"></i> Add New Table
     </a>
   </div>
-
-  <h2 class="mb-4 text-center" style="color: brown;"><i class="bi bi-table"></i> Table Configuration</h2>
+  <div class="text-center">
+    <h3 class="mb-4"><i class="bi bi-table"></i> Table Configuration</h3>
+  </div>
 
   {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    {% endfor %}
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
   {% endif %}
 
-  <div class="table-responsive">
-    <table class="custom-table">
+    <table class="admin-table">
       <thead class="">
         <tr>
           <th>Table Number</th>
@@ -37,7 +37,7 @@
         </tr>
       </thead>
       <tbody>
-      {% for table in tables %}
+        {% for table in tables %}
         <tr>
           <form method="post">
             {% csrf_token %}
@@ -50,9 +50,9 @@
               <select name="waiter_id" class="form-select">
                 <option value="">-- None --</option>
                 {% for waiter in waiters %}
-                  <option value="{{ waiter.id }}" {% if table.assigned_waiter == waiter %}selected{% endif %}>
-                    {{ waiter.user.get_full_name|default:waiter.user.username }}
-                  </option>
+                <option value="{{ waiter.id }}" {% if table.assigned_waiter == waiter %}selected{% endif %}>
+                  {{ waiter.user.get_full_name|default:waiter.user.username }}
+                </option>
                 {% endfor %}
               </select>
             </td>
@@ -62,7 +62,7 @@
               </div>
             </td>
             <td class="text-center text-muted small"><b>
-              {{ table.last_activity|date:"Y-m-d H:i A" }}</b>
+                {{ table.last_activity|date:"Y-m-d H:i A" }}</b>
             </td>
             <td class="text-center">
               <button type="submit" class="btn btn-success">
@@ -71,10 +71,9 @@
             </td>
           </form>
         </tr>
-      {% endfor %}
+        {% endfor %}
       </tbody>
     </table>
-  </div>
 
 </div>
 

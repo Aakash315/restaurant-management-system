@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-  <a href="{% url 'cashier_dashboard' %}" class="btn btn-primary mt-3 mb-4">← Back</a>
-  <h3 style="color: brown;"><u>Bill for Table </u>: {{ bill.order.table.number }}</h3>
-  <p style="color: brown;"><strong>Customer Name:</strong> {{ bill.order.customer.name }}</p>
-  <p style="color: brown;"><strong>Customer Mobile:</strong> {{ bill.order.customer.mobile }}</p>
-  <p style="color: brown;"><strong>Waiter:</strong> {{ bill.order.waiter.name }}</p>
-  <p style="color: brown;"><strong>Date:</strong> {{ bill.generated_at|date:"d M Y H:i A" }}</p>
+  <a href="{% url 'cashier_dashboard' %}" class="btn btn-success mt-3 mb-4">← Back</a>
+  <div style="color: brown;">
+    <h3><u>Bill for Table </u>: {{ bill.order.table.number }}</h3>
+    <p><strong>Customer Name:</strong> {{ bill.order.customer.name|title }}</p>
+    <p><strong>Customer Mobile:</strong> {{ bill.order.customer.mobile }}</p>
+    <p><strong>Waiter:</strong> {{ bill.order.waiter.user.username }}</p>
+    <p><strong>Date:</strong> {{ bill.generated_at|date:"d M Y H:i A" }}</p>
+  </div>
 
-  <table class="custom-table">
+  <table class="request-table">
     <thead>
       <tr>
         <th>Item</th>
@@ -49,7 +51,7 @@
     </tbody>
   </table>
 
-  <a href="{% url 'generate_receipt' bill.id %}" target="_blank" class="btn btn-outline-dark mt-4">
+  <a href="{% url 'generate_receipt' bill.id %}" target="_blank" class="btn btn-success mt-4">
     <i class="bi bi-printer"></i> Print Receipt
   </a>
 </div>

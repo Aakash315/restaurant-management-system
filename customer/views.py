@@ -101,9 +101,9 @@ def enter_members(request):
 
     return render(request, 'customer/enter_members.html') 
 
-def menu_item_detail(request, item_id):
-    item = get_object_or_404(MenuItem, id=item_id, is_available=True)
-    return render(request, 'customer/menu_item_detail.html', {'item': item})
+# def menu_item_detail(request, item_id):
+#     item = get_object_or_404(MenuItem, id=item_id, is_available=True)
+#     return render(request, 'customer/menu_item_detail.html', {'item': item})
 
 
 def menu_view(request):
@@ -112,6 +112,9 @@ def menu_view(request):
         return redirect('customer_register')
         
     customer = Customer.objects.get(id=customer_id)
+
+    request.session['customer_name'] = customer.name
+
     selected_meal_type = request.GET.get('meal_type') or request.session.get('last_selected_meal_type')
     items = MenuItem.objects.filter(is_available=True)
     menu_items = MenuItem.objects.filter(stock_quantity__gt=0)
@@ -138,12 +141,14 @@ def menu_view(request):
         return redirect('menu_view')
     
     cart = request.session.get('cart', {})
+    table_number = customer.table.id if customer.table else None
     return render(request, 'customer/menu.html', {
         'items': items,
         'cart': cart,
         'menu_items':menu_items,
         'meal_types': meal_types,
-        'selected_meal_type': selected_meal_type
+        'selected_meal_type': selected_meal_type,
+        'table_number': table_number,
     })
 
 
@@ -166,7 +171,6 @@ def view_cart(request):
         'total': total
     })
 
-@login_required
 def increase_quantity(request, item_id):
     cart = request.session.get('cart', {})
     item_id = str(item_id)
@@ -175,7 +179,6 @@ def increase_quantity(request, item_id):
     request.session['cart'] = cart
     return redirect('view_cart')
 
-@login_required
 def decrease_quantity(request, item_id):
     cart = request.session.get('cart', {})
     item_id = str(item_id)
@@ -188,7 +191,6 @@ def decrease_quantity(request, item_id):
     return redirect('view_cart')
 
 
-@login_required
 def remove_from_cart(request, item_id):
     cart = request.session.get('cart', {})
     cart.pop(str(item_id), None)

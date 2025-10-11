@@ -1,16 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-  <a href="{% url 'cashier_dashboard' %}" class="btn btn-primary mt-3 mb-4">← Back</a>
-  <h3 style="color: brown;"><u>Bill for Table </u>: {{ bill.order.table.number }}</h3>
-  <p style="color: brown;"><strong>Customer Name:</strong> {{ bill.order.customer.name }}</p>
-  <p style="color: brown;"><strong>Customer Mobile:</strong> {{ bill.order.customer.mobile }}</p>
-  <p style="color: brown;"><strong>Waiter:</strong> {{ bill.order.waiter.name }}</p>
-  <p style="color: brown;"><strong>Date:</strong> {{ bill.generated_at|date:"d M Y H:i A" }}</p>
+  <a href="{% url 'cashier_dashboard' %}" class="btn btn-success mt-3 mb-4">← Back</a>
+  <div style="color: brown;">
+  <h3><u>Bill for Table </u>: {{ bill.order.table.number }}</h3>
+  <p><strong>Customer Name:</strong> {{ bill.order.customer.name }}</p>
+  <p><strong>Customer Mobile:</strong> {{ bill.order.customer.mobile }}</p>
+  <p><strong>Waiter:</strong> {{ bill.order.waiter.user.username }}</p>
+  <p><strong>Date:</strong> {{ bill.generated_at|date:"d M Y H:i A" }}</p>
+  </div>
 
-  <table class="custom-table">
+  <table class="request-table">
     <thead>
       <tr>
+        <th>Sr. No.</th>
         <th>Item</th>
         <th>Qty</th>
         <th>Price</th>
@@ -20,31 +23,32 @@
     <tbody>
       {% for item in bill.order.items.all %}
       <tr>
+        <td>{{ forloop.counter }}</td>
         <td>{{ item.item.name|title }}</td>
         <td class="text-center">{{ item.quantity }}</td>
-        <td class="text-center">${{ item.item.price }}</td>
-        <td class="text-center">${{ item.total_price|floatformat:2 }}</td>
+        <td class="text-center">{{ item.item.price }} /-</td>
+        <td class="text-center">{{ item.total_price|floatformat:2 }} /-</td>
       </tr>
       {% endfor %}
       <tr>
-        <td colspan="3" class="text-end"><strong>Subtotal:</strong></td>
-        <td class="text-center"><strong>${{ bill.total }}</strong></td>
+        <td colspan="4" class="text-end"><strong>Subtotal:</strong></td>
+        <td class="text-center"><strong>{{ bill.total }} /-</strong></td>
       </tr>
       <tr>
-        <td colspan="3" class="text-end">CGST ({{ bill.get_tax_setting.cgst }}%)</td>
-        <td class="text-center">${{ bill.cgst_amount|floatformat:2 }}</td>
+        <td colspan="4" class="text-end">CGST ({{ bill.get_tax_settings.cgst }}%)</td>
+        <td class="text-center">{{ bill.cgst_amount|floatformat:2 }} /-</td>
       </tr>
       <tr>
-        <td colspan="3" class="text-end">SGST ({{ bill.get_tax_setting.sgst }}%)</td>
-        <td class="text-center">${{ bill.sgst_amount|floatformat:2 }}</td>
+        <td colspan="4" class="text-end">SGST ({{ bill.get_tax_settings.sgst }}%)</td>
+        <td class="text-center">{{ bill.sgst_amount|floatformat:2 }} /-</td>
       </tr>
       <tr>
-        <td colspan="3" class="text-end">Tip:</td>
-        <td class="text-center">${{ bill.tip }}</td>
+        <td colspan="4" class="text-end">Tip:</td>
+        <td class="text-center">{{ bill.tip }} /-</td>
       </tr>
       <tr class="table-success">
-        <td colspan="3" class="text-end">Total Due:</td>
-        <td class="text-center"><strong>${{ bill.grand_total_with_tax|floatformat:2 }}</strong></td>
+        <td colspan="4" class="text-end">Total Due:</td>
+        <td class="text-center"><strong>{{ bill.grand_total_with_tax|floatformat:2 }} /-</strong></td>
       </tr>
     </tbody>
   </table>
@@ -70,7 +74,7 @@
     </button>
   </form>
 
-  <a href="{% url 'generate_receipt' bill.id %}" target="_blank" class="btn btn-outline-dark mt-4">
+  <a href="{% url 'generate_receipt' bill.id %}" target="_blank" class="btn btn-success mt-4">
     <i class="bi bi-printer"></i> Print Receipt
   </a>
 </div>

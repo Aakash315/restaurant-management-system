@@ -46,14 +46,15 @@
   <h2><u>Restaurant Receipt</u></h2>
   <p><strong><u>Date:</u></strong> {{ bill.generated_at|date:"d M Y H:i A" }}</p>
   <p><strong><u>Table:</u></strong> {{ bill.order.table.number }}</p>
-  <p><strong><u>Customer Name:</u></strong> {{ bill.order.customer.name }}</p>
+  <p><strong><u>Customer Name:</u></strong> {{ bill.order.customer.name|title }}</p>
   <p><strong><u>Customer Mobile:</u></strong> {{ bill.order.customer.mobile }}</p>
-  <p><strong><u>Waiter:</u></strong> {{ bill.order.waiter.name }}</p>
+  <p><strong><u>Waiter:</u></strong> {{ bill.order.waiter.user.username }}</p>
   <hr />
 
   <table>
     <thead>
       <tr>
+        <th>Sr. No.</th>
         <th>Item</th>
         <th>Qty</th>
         <th>Unit Price</th>
@@ -63,34 +64,35 @@
     <tbody>
       {% for item in bill.order.items.all %}
       <tr>
+        <td>{{ forloop.counter }}</td>
         <td>{{ item.item.name|title }}</td>
         <td>{{ item.quantity }}</td>
-        <td>${{ item.item.price }}</td>
-        <td>${{ item.total_price|floatformat:2 }}</td>
+        <td>{{ item.item.price }} /-</td>
+        <td>{{ item.total_price|floatformat:2 }} /-</td>
       </tr>
       {% endfor %}
       <tr>
-        <td colspan="3" class="right"><strong>Subtotal:</strong></td>
-        <td>${{ bill.total }}</td>
+        <td colspan="4" class="right"><strong>Subtotal:</strong></td>
+        <td>{{ bill.total }} /-</td>
       </tr>
       <tr>
-        <td colspan="3" class="right">CGST ({{ bill.get_tax_setting.cgst }}%)</td>
-        <td>${{ bill.cgst_amount|floatformat:2 }}</td>
+        <td colspan="4" class="right">CGST ({{ bill.get_tax_settings.cgst }}%)</td>
+        <td>{{ bill.cgst_amount|floatformat:2 }} /-</td>
       </tr>
       <tr>
-        <td colspan="3" class="right">SGST ({{ bill.get_tax_setting.sgst }}%)</td>
-        <td>${{ bill.sgst_amount|floatformat:2 }}</td>
+        <td colspan="4" class="right">SGST ({{ bill.get_tax_settings.sgst }}%)</td>
+        <td>{{ bill.sgst_amount|floatformat:2 }} /-</td>
       </tr>
       <tr>
-        <td colspan="3" class="right">Tip:</td>
-        <td>${{ bill.tip }}</td>
+        <td colspan="4" class="right">Tip:</td>
+        <td>{{ bill.tip }} /-</td>
       </tr>
       <tr>
-        <td colspan="3" class="right"><strong>Final Total:</strong></td>
-        <td><strong>${{ bill.grand_total_with_tax|floatformat:2 }}</strong></td>
+        <td colspan="4" class="right"><strong>Final Total:</strong></td>
+        <td><strong>{{ bill.grand_total_with_tax|floatformat:2 }} /-</strong></td>
       </tr>
       <tr>
-        <td colspan="3" class="right">Payment Method:</td>
+        <td colspan="4" class="right">Payment Method:</td>
         <td>{{ bill.payment_method }}</td>
       </tr>
     </tbody>

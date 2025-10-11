@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-<a href="{% url 'menu_view' %}" class="btn btn-outline-primary">
+<a href="{% url 'menu_view' %}" class="btn btn-success">
   ← Back to Menu
 </a>
 <h3 class="mt-3 text-center" style="color: brown;">🧾 Your Bill</h3>
-<table class="custom-table">
+<table class="request-table">
   <thead>
     <tr>
+      <th>Sr. No.</th>
       <th>Item</th>
       <th>Qty</th>
       <th>Price</th>
@@ -17,31 +18,32 @@
   <tbody>
     {% for item in order.items.all %}
     <tr>
-      <td>{{ item.item.name|title }}</td>
-      <td class="text-center">{{ item.quantity }}</td>
-      <td class="text-center">${{ item.item.price }}</td>
-      <td class="text-center">${{ item.total_price|floatformat:2 }}</td>
+      <td><strong>{{ forloop.counter }}</strong></td>
+      <td><strong>{{ item.item.name|title }}</strong></td>
+      <td class="text-center"><strong>{{ item.quantity }}</strong></td>
+      <td class="text-center"><strong>{{ item.item.price }} /-</strong></td>
+      <td class="text-center"><strong>{{ item.total_price|floatformat:2 }} /-</strong></td>
     </tr>
     {% endfor %}
     <tr>
-      <td colspan="3" class="text-end"><strong>Subtotal</strong></td>
-      <td class="text-center"><strong>${{ bill.total }}</strong></td>
+      <td colspan="4" class="text-end"><strong>Subtotal</strong></td>
+      <td class="text-center"><strong>{{ bill.total }} /-</strong></td>
     </tr>
     <tr>
-      <td colspan="3" class="text-end">CGST ({{ bill.get_tax_setting.cgst }}%)</td>
-      <td class="text-center">${{ bill.cgst_amount|floatformat:2 }}</td>
+      <td colspan="4" class="text-end"><strong>CGST ({{ bill.get_tax_settings.cgst }}%)</strong></td>
+      <td class="text-center"><strong>{{ bill.cgst_amount|floatformat:2 }} /-</strong></td>
     </tr>
     <tr>
-      <td colspan="3" class="text-end">SGST ({{ bill.get_tax_setting.sgst }}%)</td>
-      <td class="text-center">${{ bill.sgst_amount|floatformat:2 }}</td>
+      <td colspan="4" class="text-end"><strong>SGST ({{ bill.get_tax_settings.sgst }}%)</strong></td>
+      <td class="text-center"><strong>{{ bill.sgst_amount|floatformat:2 }} /-</strong></td>
     </tr>
     <tr>
-      <td colspan="3" class="text-end"><strong>Tip</strong></td>
-      <td class="text-center"><strong>${{ bill.tip }}</strong></td>
+      <td colspan="4" class="text-end"><strong>Tip</strong></td>
+      <td class="text-center"><strong>{{ bill.tip }} /-</strong></td>
     </tr>
-    <tr class="table-success">
-      <td colspan="3" class="text-end"><strong>Grand Total</strong></td>
-      <td class="text-center"><strong>${{ bill.grand_total_with_tax|floatformat:2 }}</strong></td>
+    <tr style="background-color: rgb(11, 154, 11);">
+      <td colspan="4" class="text-end"><strong>Grand Total</strong></td>
+      <td class="text-center"><strong>{{ bill.grand_total_with_tax|floatformat:2 }} /-</strong></td>
     </tr>
   </tbody>
 </table>
@@ -54,7 +56,7 @@
     <input type="number" name="tip" step="0.5" class="form-control" placeholder="Enter tip amount"
       value="{{ bill.tip }}">
   </div>
-  <button class="btn btn-warning"><i class="bi bi-cash-coin"></i> Submit Tip</button>
+  <button class="btn btn-success"><i class="bi bi-cash-coin"></i> Submit Tip</button>
 </form>
 
 

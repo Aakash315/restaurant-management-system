@@ -3,17 +3,19 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="mb-4 text-center" style="color: brown;"><u>Manager Dashboard</u></h2>
+    <div class="text-center">
+        <h3 class="mb-4 ">Manager Dashboard</h3>
+    </div>
 
     <!-- Navigation Links -->
     <div class="mb-4">
-        <a href="{% url 'manager_feedback' %}" class="btn btn-outline-primary">View Feedback</a>
-        <a href="{% url 'manager_report' %}" class="btn btn-outline-success">Daily Report</a>
-        <a href="{% url 'inventory_dashboard' %}" class="btn btn-outline-warning">Inventory</a>
+        <a href="{% url 'manager_feedback' %}" class="btn btn-info">View Feedback</a>
+        <a href="{% url 'manager_report' %}" class="btn btn-success">Daily Report</a>
+        <a href="{% url 'inventory_dashboard' %}" class="btn btn-warning">Inventory</a>
     </div>
 
     <!-- Tables Overview -->
-    <h4 class="text-center" style="color: brown;">Tables Overview</h4>
+    <h4 class="text-center">Tables Overview</h4>
     <table class="custom-table">
         <thead class="">
             <tr>
@@ -31,9 +33,9 @@
                 <td>{{ table.capacity }}</td>
                 <td>
                     {% if table.is_occupied %}
-                        <span class="badge bg-danger">Yes</span>
+                    <span class="badge bg-danger">Yes</span>
                     {% else %}
-                        <span class="badge bg-success">No</span>
+                    <span class="badge bg-success">No</span>
                     {% endif %}
                 </td>
                 <td>
@@ -70,7 +72,7 @@
                 <td>{{ order.customer.name|title }}</td>
                 <td>{{ order.waiter.user.username|default:"-" }}</td>
                 <td><span class="badge bg-info text-dark">{{ order.status }}</span></td>
-                <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                <td>{{ order.created_at|date:"Y-m-d H:i A" }}</td>
             </tr>
             {% empty %}
             <tr>

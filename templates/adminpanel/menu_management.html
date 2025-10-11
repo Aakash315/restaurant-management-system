@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-5">
-  <a href="{% url 'add_menu_item' %}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Add Item</a>
-  <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-primary"><i class="bi bi-arrow-left-circle"></i> Back To
+<div class="container-fluid mt-5">
+  <a href="{% url 'add_menu_item' %}" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add Item</a>
+  <a href="{% url 'admin_dashboard' %}" class="btn btn-success"><i class="bi bi-arrow-left-circle"></i> Back To
     Dashboard</a>
   <div class="text-center">
     <h3>🍽️ Menu Management</h3>
@@ -32,7 +32,7 @@
   </form>
 
   <!-- Menu Items Table -->
-  <table class="custom-table">
+  <table class="admin-table">
     <thead>
       <tr>
         <th>Serial No.</th>
@@ -51,7 +51,7 @@
       {% for item in items %}
       <tr>
         <td>{{ forloop.counter }}</td>
-        <td>{{ item.name }}</td>
+        <td>{{ item.name|title }}</td>
         <td>{{ item.description }}</td>
         <td>₹{{ item.price }}</td>
         <td>{{ item.category }}</td>

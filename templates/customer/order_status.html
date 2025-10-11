@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-<h3><i class="bi bi-clock-history"></i> Your Order Status</h3>
-
-<table class="table table-striped">
+<div class="container mt-4">
+  <a href="{% url 'menu_view' %}" class="btn btn-success mb-3"><i class="bi bi-arrow-left-circle"></i> Back to Menu
+  </a>
+  
+<h3 class="mb-4"><i class="bi bi-clock-history"></i> Your Order Status</h3>
+<div class="table-responsive">
+<table class="custom-table">
   <thead>
     <tr>
+      <th>Sr. No.</th>
       <th>Item</th>
       <th>Qty</th>
       <th>Kitchen Status</th>
@@ -13,7 +18,8 @@
   </thead>
   <tbody>
     {% for item in order.items.all %}
-    <tr>
+    <tr class="text-center">
+      <td>{{ forloop.counter }}</td>
       <td>{{ item.item.name }}</td>
       <td>{{ item.quantity }}</td>
       <td>
@@ -36,11 +42,9 @@
     {% endfor %}
   </tbody>
 </table>
+</div>
 
-<a href="{% url 'menu_view' %}" class="btn btn-outline-secondary">
-  ← Back to Menu
-</a>
-
+</div>
 <script>
   setTimeout(function() {
     location.reload();

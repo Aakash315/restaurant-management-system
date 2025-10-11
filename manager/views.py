@@ -87,7 +87,7 @@ def export_daily_report_csv(request):
         writer.writerow([
             bill.id,
             bill.order.table.number,
-            bill.order.waiter.user.get_full_name() if bill.order.waiter else 'N/A',
+            bill.order.waiter.user.username if bill.order.waiter else 'N/A',
             f"{bill.total:.2f}",
             f"{bill.tip:.2f}",
             f"{bill.final_total():.2f}",

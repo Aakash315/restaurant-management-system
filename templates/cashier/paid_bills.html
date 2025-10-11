@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-    <a href="{% url 'cashier_dashboard' %}" class="btn btn-outline-danger mt-3 mb-4">← Back</a>
-    <h2 class="text-center" style="color: brown;">Paid Bills</h2>
+    <a href="{% url 'cashier_dashboard' %}" class="btn btn-success mt-3 mb-4">← Back To Dashboard</a>
+    <div class="text-center">
+    <h3><i class="bi bi-cash-stack"></i>Paid Bills</h3>
+    </div>
 
     {% if bills %}
-    <table class="custom-table">
+    <table class="admin-table">
         <thead>
             <tr>
                 <th scope="col">Table Number</th>
@@ -21,11 +23,11 @@
             <tr class="text-center">
                 <td>{{ bill.order.table.number }}</td>
                 <td>{{ bill.order.customer.name| title }}</td>
-                <td>{{ bill.total }}</td>
+                <td>{{ bill.total }} /-</td>
                 <td>{{ bill.payment_method }}</td>
                 <td>{{ bill.generated_at|date:"d M Y H:i A" }}</td>
                 <td>
-                    <a href="{% url 'show_bill' bill.id %}" class="btn btn-outline-danger">View</a>
+                    <a href="{% url 'show_bill' bill.id %}" class="btn btn-success"><i class="bi bi-eye"></i>View</a>
                 </td>
             </tr>
             {% endfor %}

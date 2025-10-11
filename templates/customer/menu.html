@@ -1,26 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container mt-5">
+<div class="container-fluid mt-5">
+  <h4><u>Table Number:</u> {{ table_number }}</h4>
+  <h2 class="mb-4 text-center" style="font-weight: 700;"><i>Our Menu</i></h2>
 
-  <!-- Top Buttons -->
-  <!-- <div class="d-flex justify-content-end mb-4 gap-2">
-    <a href="{% url 'order_status' %}" class="btn btn-info">
-      <i class="bi bi-eye"></i> Live Order Status
-    </a>
-    <a href="{% url 'view_cart' %}" class="btn btn-primary">
-      <i class="bi bi-bag-check"></i> View Cart
-    </a>
-    <a href="{% url 'request_assistance' %}" class="btn btn-warning">
-      <i class="bi bi-person-raised-hand"></i> Request Assistance
-    </a>
-    <a href="{% url 'request_bill' %}" class="btn btn-danger">
-      <i class="bi bi-receipt"></i> Request Bill
-    </a>
-  </div> -->
-  <h4 style="color: brown;">Table Number: </h4>
-  <h2 class="mb-4 text-center" style="color: brown; font-weight: 700;"><i>Our Menu</i></h2>
-  
   <!-- Meal Type Tabs -->
   <ul class="nav nav-tabs mb-4 justify-content-center">
     <!-- <li class="nav-item">
@@ -53,7 +37,9 @@
           <td class="text-center">{{ forloop.counter }}</td>
           <td>
             {{ item.name|title }}
-            <a href="{% url 'menu_item_detail' item.id %}" class="text-secondary ms-2">
+            <a href="#" class="text-secondary ms-2" data-bs-toggle="modal" data-bs-target="#itemModal"
+              data-item-name="{{ item.name|title }}" data-item-description="{{ item.description }}"
+              data-item-price="{{ item.price }}">
               <i class="bi bi-info-circle"></i>
             </a>
           </td>
@@ -74,7 +60,7 @@
                 onclick="increaseQuantity({{ item.id }})">+</button>
           </td>
           <td class="text-center">
-            <button type="submit" class="btn btn-sm btn-success">
+            <button type="submit" class="btn">
               <i class="bi bi-cart-plus"></i> Add
             </button>
             </form>
@@ -86,6 +72,24 @@
     </table>
   </div>
 </div>
+
+<!-- Item Detail Modal -->
+<div class="modal fade" id="itemModal" tabindex="-1" aria-labelledby="itemModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="itemModalLabel">Item Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h4 id="modalItemName"></h4>
+        <p><strong>Description:</strong> <span id="modalItemDescription"></span>{{ item.description }}</p>
+        <p><strong>Price:</strong> ₹<span id="modalItemPrice"></span>{{ item.price }} /-</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- JavaScript for Quantity Control -->
 <script>
@@ -102,6 +106,21 @@
       input.value = value - 1;
     }
   }
+
+  const itemModal = document.getElementById('itemModal');
+  itemModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Button that triggered the modal
+
+    // Get data attributes from the clicked element
+    const name = button.getAttribute('data-item-name');
+    const description = button.getAttribute('data-item-description');
+    const price = button.getAttribute('data-item-price');
+
+    // Update modal content
+    document.getElementById('modalItemName').textContent = name;
+    document.getElementById('modalItemDescription').textContent = description;
+    document.getElementById('modalItemPrice').textContent = price;
+  });
 </script>
 
 {% endblock %}

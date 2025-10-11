@@ -15,6 +15,23 @@ from django.contrib.auth.tokens import default_token_generator
 from django.template.loader import render_to_string
 
 def login_view(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect('admin_dashboard')
+        try:
+            staff = Staff.objects.get(user=request.user)
+            role = staff.role
+            if role == 'waiter':
+                return redirect('waiter_dashboard')
+            elif role == 'cashier':
+                return redirect('cashier_dashboard')
+            elif role == 'manager':
+                return redirect('manager_dashboard')
+            elif role == 'admin':
+                return redirect('admin_dashboard')
+        except Staff.DoesNotExist:
+            pass
+        
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')

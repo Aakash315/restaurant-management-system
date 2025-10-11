@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-  <a href="{% url 'waiter_orders' %}" class="btn btn-outline-primary">View Orders</a>
-  <h1 class="mt-4 text-center" style="color: brown;">Waiter Dashboard</h1>
-  <h3 class="mt-4" style="color: brown;">Assistance Requests</h3>
+  <a href="{% url 'waiter_orders' %}" class="btn btn-success">View Orders</a>
+  <div class="text-center">
+    <h3 class="mt-4">Waiter Dashboard</h3>
+  </div>
+  <h4 class="mt-4" style="color: brown;">Assistance Requests</h4>
   {% if requests %}
   <table class="custom-table">
     <thead>
@@ -16,7 +18,7 @@
     <tbody>
       {% for req in requests %}
       <tr class="text-center">
-        <td>Table {{ req.table.number }}</td>
+        <td>Table No. {{ req.table.number }}</td>
         <td>{{ req.timestamp|date:"H:i:s A" }}</td>
         <td>
           <a href="{% url 'resolve_request' req.id %}" class="btn btn-sm btn-success">

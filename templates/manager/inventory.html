@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-  <a href="{% url 'manager_dashboard' %}" class="btn btn-outline-primary">← Back </a>
+  <a href="{% url 'manager_dashboard' %}" class="btn btn-success"><i class="bi bi-arrow-left-circle"></i> Back </a>
 
-
-  <h3 class="text-center" style="color: brown;"><i class="bi bi-box-seam"></i> Inventory Management</h3>
+  <div class="text-center">
+  <h3><i class="bi bi-box-seam"></i> Inventory Management</h3>
+  </div>
 
   <h5 class="mt-4" style="color: brown;">📉 Low Stock Alerts</h5>
 
@@ -12,7 +13,7 @@
   <ul class="list-group">
     {% for item in low_stock_items %}
     <li class="list-group-item d-flex justify-content-between">
-      {{ item.name }}
+      {{ item.name|title }}
       <span class="badge bg-danger">{{ item.stock_quantity }} left</span>
     </li>
     {% endfor %}
@@ -26,11 +27,11 @@
   <!-- 🔍 Search Bar -->
   <form method="get" class="mb-3 d-flex" role="search">
     <input type="text" name="q" placeholder="Search item..." value="{{ query }}" class="form-control me-2" />
-    <button type="submit" class="btn btn-outline-secondary">Search</button>
+    <button type="submit" class="btn btn-success">Search</button>
   </form>
 
   <h5 class="mt-4 mb-3 text-center" style="color: brown;">📦 Full Inventory</h5>
-  <table class="custom-table">
+  <table class="admin-table">
     <thead>
       <tr>
         <th>Item</th>
@@ -49,7 +50,7 @@
           <form method="post" action="{% url 'update_stock' item.id %}" class="d-flex">
             {% csrf_token %}
             <input type="number" name="stock_quantity" class="form-control me-2" value="{{ item.stock_quantity }}">
-            <button class="btn btn-outline-success">Update</button>
+            <button class="btn btn-success">Update</button>
           </form>
         </td>
       </tr>
