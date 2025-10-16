@@ -1,0 +1,43 @@
+<!-- customer/payment.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h3>Payment Gateway</h3>
+  <p>Total Amount: ₹{{ bill.grand_total_with_tax|floatformat:2 }}</p>
+
+  <button id="rzp-button" class="btn btn-success">Pay Now</button>
+
+  <form id="razorpay-form" method="post" action="{% url 'payment_success' %}">
+    {% csrf_token %}
+    <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+    <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+    <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+  </form>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "{{ razorpay_key_id }}",
+    "amount": "{{ payment.amount }}",
+    "currency": "INR",
+    "name": "Mama's Kitchen",
+    "description": "Bill Payment",
+    "order_id": "{{ payment.id }}",
+    "handler": function (response){
+        document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+        document.getElementById('razorpay_order_id').value = response.razorpay_order_id;
+        document.getElementById('razorpay_signature').value = response.razorpay_signature;
+        document.getElementById('razorpay-form').submit();
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+document.getElementById('rzp-button').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+{% endblock %}

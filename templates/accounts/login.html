@@ -3,24 +3,6 @@
 
 {% block content %}
 
-<!-- Header: Logo and Staff Login -->
-<!-- <div class="p-5">
-  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 text-center text-md-start">
-    <div class="mb-3 mb-md-0">
-      <img src="{% static 'images/logo-removebg.png' %}" alt="Logo" style="width: 150px; height: auto;">
-    </div>
-    <div class="register">
-      <h1 class="text-center">Mama's Kitchen</h1>
-      <p class="text-center">Veg & Non-Veg</p>
-    </div>
-    <div class="register">
-      <a href="{% url 'customer_register' %}" class="btn">
-        <i class="bi bi-box-arrow-in-right"></i> Back To Home
-      </a>
-    </div>
-  </div>
-</div> -->
-
 <div class="container mt-5">
   <div class="register-card row justify-content-center">
     <div class="col-12 col-sm-10 col-md-8 col-lg-6">
@@ -31,7 +13,16 @@
         </div>
         <div class="card-body">
 
-          <!-- <h3><i class="bi bi-person-circle"></i> Staff Login</h3> -->
+          {% if messages %}
+          <div class="mb-3">
+            {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+              {{ message }}
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
           <form method="post">
             {% csrf_token %}
             <div class="mb-3">
@@ -41,7 +32,8 @@
             <div class="mb-3">
               <label class="form-label"><i class="bi bi-key"></i> Password</label>
               <input type="password" name="password" class="form-control" required>
-              <a href="{% url 'forgot_password' %}" class="text-decoration-none" style="color: brown;">Forgot password?</a>
+              <a href="{% url 'forgot_password' %}" class="text-decoration-none" style="color: brown;">Forgot
+                password?</a>
             </div>
             <div class="d-grid">
               <button class="btn btn-primary"><i class="bi bi-send-fill"></i>Login</button>

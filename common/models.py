@@ -28,7 +28,7 @@ class Staff(models.Model):
 
 class Customer(models.Model):
     name = models.CharField(max_length=100)
-    mobile = models.CharField(max_length=15)
+    mobile = models.CharField(max_length=10, unique=True)
     email = models.EmailField()
     otp = models.CharField(max_length=6)
     is_verified = models.BooleanField(default=False)

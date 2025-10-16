@@ -8,26 +8,51 @@ from django.db.models import Sum
 from decimal import Decimal
 import random
 from django.urls import reverse
+import razorpay
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
 def customer_register(request):
+    errors = {}
+    name = ''
+    mobile = ''
+    email = ''
     if request.method == 'POST':
         name = request.POST['name']
         mobile = request.POST['mobile']
         email = request.POST['email']
-        otp = str(randint(100000, 999999))
 
-        customer = Customer.objects.create(name=name, mobile=mobile, email=email, otp=otp)
-        send_mail(
-            'Your OTP Code',
-            f'Your OTP is: {otp}',
-            'yourrestaurant@example.com',
-            [email],
-            fail_silently=False,
-        )
-        request.session['customer_id'] = customer.id
-        return redirect('verify_otp')
+        if not name:
+            errors['name'] = 'Name is required.'
+        if not mobile:
+            errors['mobile'] = 'Mobile number is required.'
+        elif not mobile.isdigit() or len(mobile) != 10:
+            errors['mobile'] = 'Enter a valid 10-digit mobile number.'
+        if not email:
+            errors['email'] = 'Email is required.'
+
+        if not errors:
+
+            otp = str(randint(100000, 999999))
+
+            customer = Customer.objects.create(name=name, mobile=mobile, email=email, otp=otp)
+            send_mail(
+                'Your OTP Code',
+                f'Your OTP is: {otp}',
+                'yourrestaurant@example.com',
+                [email],
+                fail_silently=False,
+            )
+            request.session['customer_id'] = customer.id
+            return redirect('verify_otp')
     
-    return render(request, 'customer/register.html')
+    return render(request, 'customer/register.html', {
+            'errors': errors,
+            'name': name,
+            'mobile': mobile,
+            'email': email
+        })
 
 def verify_otp(request):
     customer = Customer.objects.get(id=request.session['customer_id'])
@@ -101,9 +126,6 @@ def enter_members(request):
 
     return render(request, 'customer/enter_members.html') 
 
-# def menu_item_detail(request, item_id):
-#     item = get_object_or_404(MenuItem, id=item_id, is_available=True)
-#     return render(request, 'customer/menu_item_detail.html', {'item': item})
 
 
 def menu_view(request):
@@ -218,7 +240,9 @@ def place_order(request):
     # Clear the cart
     request.session['cart'] = {}
 
-    return render(request, 'customer/order_placed.html', {'order': order})
+    messages.success(request, "✅ Order Placed! Your order has been sent to the kitchen.")
+    return redirect('view_cart')
+    # return render(request, 'customer/order_placed.html', {'order': order})
 
 
 def request_assistance(request):
@@ -292,6 +316,16 @@ def order_status(request):
         'order': order
     })
 
+# def order_status(request):
+#     customer = Customer.objects.get(id=request.session['customer_id'])
+#     orders = Order.objects.filter(customer=customer).order_by('-created_at')
+
+#     if not orders:
+#         return redirect('menu_view')
+
+#     return render(request, 'customer/order_status.html', {
+#         'orders': orders
+#     })
 
 def leave_feedback(request):
     customer = Customer.objects.get(id=request.session['customer_id'])
@@ -313,3 +347,49 @@ def leave_feedback(request):
     return render(request, 'customer/leave_feedback.html', {
         'order': order
     })
+
+
+def start_payment(request):
+    customer = Customer.objects.get(id=request.session['customer_id'])
+    order = Order.objects.filter(customer=customer).order_by('-created_at').first()
+    bill = Bill.objects.get(order=order)
+
+    client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+    # Amount should be in paise (multiply by 100)
+    payment = client.order.create({
+        'amount': int(bill.grand_total_with_tax() * 100),
+        'currency': 'INR',
+        'payment_capture': 1
+    })
+
+    context = {
+        'payment': payment,
+        'bill': bill,
+        'order': order,
+        'razorpay_key_id': settings.RAZORPAY_KEY_ID,
+        'customer': customer
+    }
+    return render(request, 'customer/payment.html', context)
+
+@csrf_exempt
+def payment_success(request):
+    if request.method == 'POST':
+        customer = Customer.objects.get(id=request.session['customer_id'])
+        order = Order.objects.filter(customer=customer).order_by('-created_at').first()
+        bill = Bill.objects.get(order=order)
+
+        # Mark the bill as paid
+        bill.is_paid = True
+        bill.save()
+
+        # Free the table
+        table = customer.table
+        if table:
+            table.is_occupied = False
+            table.assigned_waiter = None
+            table.save()
+        customer.table = None
+        customer.save()
+
+        return render(request, 'customer/payment_success.html', {'order': order})

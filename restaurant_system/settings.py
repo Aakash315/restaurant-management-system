@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -138,6 +138,13 @@ EMAIL_PORT = 587                         # Port for TLS
 EMAIL_USE_TLS = True                     # Enable TLS
 EMAIL_HOST_USER = 'jaiswalaakash315@gmail.com'
 EMAIL_HOST_PASSWORD = 'hkbj skxh pckl falc'
+
+
+# Razor Pay intigration
+
+RAZORPAY_KEY_ID = 'rzp_test_n0lhpmrEfeIhGJ'
+RAZORPAY_KEY_SECRET = 'UOrbXQGnsEc2dhB1IFg0zNWZ'
+
 
 
 # Default primary key field type

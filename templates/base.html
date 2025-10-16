@@ -29,118 +29,124 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg shadow-sm">
-        <div class="container-fluid">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
 
             <!-- Brand Logo -->
-            {% if user.is_authenticated %}
-            <a class="navbar-brand" href="{% url 'login' %}">
-                <img src="{% static 'images/output-onlinepngtools.png' %}" alt="Logo" width="120">
-            </a>
-            {% else %}
-            <img src="{% static 'images/output-onlinepngtools.png' %}" alt="Logo" width="120">
-            <!-- <a class="navbar-brand" href="{% url 'customer_register' %}">
-            </a> -->
-            {% endif %}
-
-            <!-- Toggler Button for Mobile -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
-                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Navbar Links -->
-            <div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
-
+            <div class="d-flex align-items-center">
                 {% if user.is_authenticated %}
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle d-flex align-items-center" type="button" id="userDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle me-1"></i> {{ user.username }}
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li>
-                            <a class="dropdown-item" href="{% url 'change_password' %}"><i class="bi bi-key"></i> Change
-                                Password</a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{% url 'logout' %}">
-                                <i class="bi bi-box-arrow-right"></i> Logout
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <a class="navbar-brand" href="{% url 'login' %}">
+                    <img src="{% static 'images/output-onlinepngtools.png' %}" alt="Logo" width="120">
+                </a>
+                {% else %}
+                <img src="{% static 'images/output-onlinepngtools.png' %}" alt="Logo" width="120">
+                <!-- <a class="navbar-brand" href="{% url 'customer_register' %}">
+            </a> -->
+                {% endif %}
+            </div>
 
-                {% elif request.session.customer_id %}
+            <div class="text-center flex-grow-1">
+                <h5 class="mb-0 fw-bold" style="color: white; font-size: 50px; font-style: italic;">Mama's Kitchen</h5>
+                <small class="text-white" style="font-size: 20px;"><u>Veg & Non-Veg</u></small>
+            </div>
 
-                <!-- nothing  -->
-                <div class="register">
-                    <a href="{% url 'view_cart' %}" class="me-4 position-relative btn">
-                        <i class="bi bi-bag-check fs-5"></i> Cart
-                        {% if request.session.cart and request.session.cart|length > 0 %}
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            {{ request.session.cart|length }}
-                            <span class="visually-hidden">cart items</span>
-                        </span>
-                        {% endif %}
-                    </a>
+            <div class="d-flex align-items-center">
+                <!-- Toggler Button for Mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                </div>
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle d-flex align-items-center" type="button" id="userDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle me-1"></i> {{ request.session.customer_name }}
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li>
-                            <a href="{% url 'order_status' %}" class="dropdown-item">
-                                <i class="bi bi-eye"></i> Live Order Status
-                            </a>
-                        </li>
-                        <!-- <li>
-                            <hr class="dropdown-divider">
-                        </li> -->
-                        <!-- <li>
-                            <a href="{% url 'view_cart' %}" class="dropdown-item">
-                                <i class="bi bi-bag-check"></i> View Cart
-                            </a>
-                        </li> -->
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#assistanceModal">
-                                <i class="bi bi-person-raised-hand"></i> Request Assistance
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <a href="{% url 'request_bill' %}" class="dropdown-item">
-                                <i class="bi bi-receipt"></i> Request Bill
-                            </a>
-                        </li>
-                        <li>
+                <!-- Navbar Links -->
+                <div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
+
+                    {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle d-flex align-items-center" type="button" id="userDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle me-1"></i> {{ user.username }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'change_password' %}"><i class="bi bi-key"></i>
+                                    Change
+                                    Password</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'logout' %}">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {% elif request.session.customer_id %}
+
+                    <!-- nothing  -->
+                    <div class="register">
+                        <a href="{% url 'view_cart' %}" class="me-4 position-relative btn">
+                            <i class="bi bi-bag-check fs-5"></i> Cart
+                            {% if request.session.cart and request.session.cart|length > 0 %}
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ request.session.cart|length }}
+                                <span class="visually-hidden">cart items</span>
+                            </span>
+                            {% endif %}
+                        </a>
+
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle d-flex align-items-center" type="button" id="userDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle me-1"></i> {{ request.session.customer_name }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a href="{% url 'order_status' %}" class="dropdown-item">
+                                    <i class="bi bi-eye"></i> Live Order Status
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <!-- <a href="#" class="dropdown-item" data-bs-toggle="modal"
+                                    data-bs-target="#assistanceModal">
+                                    <i class="bi bi-person-raised-hand"></i> Request Assistance
+                                </a> -->
+                                <a href="{% url 'request_assistance' %}" class="dropdown-item">
+                                    <i class="bi bi-person-raised-hand"></i> Request Assistance
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a href="{% url 'request_bill' %}" class="dropdown-item">
+                                    <i class="bi bi-receipt"></i> Request Bill
+                                </a>
+                            </li>
+                            <!-- <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li>
                             <a class="dropdown-item" href="{% url 'customer_register' %}">
                                 <i class="bi bi-box-arrow-right"></i> Logout
                             </a>
-                        </li>
-                    </ul>
+                        </li> -->
+                        </ul>
+                    </div>
+                    {% else %}
+                    <div class="register d-flex">
+                        <a href="{% url 'login' %}" class="btn">
+                            <i class="bi bi-box-arrow-in-right"></i> Staff Login
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
-                {% else %}
-                <div class="register d-flex">
-                    <a href="{% url 'login' %}" class="btn">
-                        <i class="bi bi-box-arrow-in-right"></i> Staff Login
-                    </a>
-                </div>
-                {% endif %}
-
             </div>
         </div>
     </nav>

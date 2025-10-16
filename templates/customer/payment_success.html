@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5 text-center">
+  <h2 class="text-success">✅ Payment Successful!</h2>
+  <p>Thank you for your payment. We hope you enjoyed your meal.</p>
+  <a href="{% url 'leave_feedback' %}" class="btn btn-success mt-3"><i class="bi bi-chat-dots"></i> Leave Feedback</a>
+  <a href="{% url 'menu_view' %}" class="btn btn-success mt-3"> ← Back To Home</a>
+</div>
+{% endblock %}

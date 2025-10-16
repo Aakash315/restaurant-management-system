@@ -35,6 +35,13 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+
+        try:
+            user_obj = User.objects.get(username=username)
+        except User.DoesNotExist:
+            messages.error(request, 'Invalid username.')
+            return render(request, 'accounts/login.html')
+
         user = authenticate(request, username=username, password=password)
         print(user)
 
@@ -42,17 +49,15 @@ def login_view(request):
             login(request, user)
 
             if user.is_superuser:
-                print("Superuser logged in")
                 return redirect('admin_dashboard')
 
             try:
-                # Access role via related Staff model
                 staff = Staff.objects.get(user=user)
                 role = staff.role
             except Staff.DoesNotExist:
                 return render(request, 'accounts/login.html')
 
-            print(f"Login success: {user.username}, Role: {role}")
+            # print(f"Login success: {user.username}, Role: {role}")
 
 
             if role == 'waiter':
@@ -64,7 +69,8 @@ def login_view(request):
             elif role == 'admin':
                 return redirect('admin_dashboard')
         else:
-            messages.error(request, 'Invalid credentials.')
+            messages.error(request, 'Invalid Password.')
+            return render(request, 'accounts/login.html')
 
     return render(request, 'accounts/login.html')
 
